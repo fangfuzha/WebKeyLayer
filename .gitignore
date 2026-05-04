@@ -1,0 +1,42 @@
+# WebKeyLayer .gitignore
+
+# Cargo build artifacts
+/backend/target/
+/backend/Cargo.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS specific
+Thumbs.db
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Runtime config
+AppData/WebKeyLayer/config.toml
+AppData/WebKeyLayer/logs/
+
+# Frontend build (if using bundler)
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.parcel-cache
+
+# Python cache (for scripts if any)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Presets runtime
+/presets/**/*.cache
+
+# Temp files
+*.tmp
+*.bak
