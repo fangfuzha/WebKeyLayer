@@ -33,7 +33,7 @@ impl ConfigManager {
     }
 
     /// 启动配置文件监听（热重载）
-    pub async fn watch_config(&self, config_path: &str) -> Result<()> {
+    pub async fn watch_config(&self, _config_path: &str) -> Result<()> {
         // TODO: 实现使用 notify crate 的文件监听
         Ok(())
     }

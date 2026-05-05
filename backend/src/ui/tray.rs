@@ -24,7 +24,7 @@ impl TrayManager {
     }
 
     /// 更新托盘图标状态
-    pub fn update_status(&self, running: bool) -> Result<()> {
+    pub fn update_status(&self, _running: bool) -> Result<()> {
         // TODO: 根据服务状态更新图标
         Ok(())
     }

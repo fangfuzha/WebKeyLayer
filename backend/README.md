@@ -44,21 +44,20 @@ backend/
 
 **实现细节**：
 
-- 使用 Windows API (SetWindowsHookEx 或 RegisterHotKey)
+- 使用 Windows API SetWindowsHookExW + WH_KEYBOARD_LL
 - 线程安全：Arc<Mutex<KeyboardState>>
-- 事件流向：Hook → KeyboardState → WebSocket 广播
+- 事件流向：Hook 回调 → Tokio channel → KeyboardState → WebSocket 广播
+- 自动过滤重复按下/松开状态，避免按键长按重复广播
 
-**TODO**:
+**核心接口**:
 
 ```rust
 pub struct KeyboardHook {
-    // TODO: Windows Hook 句柄存储
-    // TODO: 事件回调实现
-    // TODO: 状态线程同步
+    // Windows Hook 线程与 Tokio 事件处理任务
 }
 
 impl KeyboardHook {
-    pub async fn start(&mut self) -> Result<()> { }
+    pub async fn start(&mut self, websocket: WebSocketServer) -> Result<()> { }
     pub async fn stop(&mut self) -> Result<()> { }
 }
 ```
@@ -76,7 +75,34 @@ impl KeyboardHook {
 
 **消息格式**：参考 [docs/API_PROTOCOL.md](../docs/API_PROTOCOL.md)
 
-### 3. config/ (配置管理层)
+### 3. mouse_hook.rs (输入采集层)
+
+**职责**：全局鼠标监听，Windows 系统级事件捕获
+
+**实现细节**：
+
+- 使用 Windows API SetWindowsHookExW + WH_MOUSE_LL
+- 线程安全：Arc<Mutex<MouseState>>
+- 事件流向：Hook 回调 → Tokio channel → MouseState → WebSocket 广播
+- 鼠标移动只在方向变化时广播 `mouse_move_direction_changed`
+- 鼠标停止后由 33ms 定时复采样触发一次 `mouse_idle`
+- 鼠标按键状态变化广播 `mouse_button_pressed` / `mouse_button_released`
+- 鼠标滚轮广播 `mouse_wheel`
+
+**核心接口**:
+
+```rust
+pub struct MouseHook {
+    // Windows Hook 线程与 Tokio 事件处理任务
+}
+
+impl MouseHook {
+    pub async fn start(&mut self, websocket: WebSocketServer) -> Result<()> { }
+    pub async fn stop(&mut self) -> Result<()> { }
+}
+```
+
+### 4. config/ (配置管理层)
 
 **职责**：TOML 配置加载、验证、热重载
 
@@ -88,7 +114,7 @@ impl KeyboardHook {
 - 文件变化监听 (notify crate)
 - 热重载（修改配置即时生效，无需重启）
 
-### 4. preset/ (预设兼容层) ⭐
+### 5. preset/ (预设兼容层) ⭐
 
 **职责**：Input Overlay 预设格式解析与内部格式转换
 
@@ -112,7 +138,7 @@ impl KeyboardHook {
 - Strict: 拒绝不兼容的预设
 - Lenient: 跳过不兼容项，继续加载
 
-### 5. ui/ (UI 层)
+### 6. ui/ (UI 层)
 
 **职责**：系统托盘宿主、本地管理网页、管理 API 服务
 

@@ -17,6 +17,8 @@ pub struct Preset {
 pub struct PresetElement {
     pub id: String,
     pub element_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub code: Option<i32>,
     pub position: Position,
     pub texture: TextureMapping,
     pub z_index: i32,

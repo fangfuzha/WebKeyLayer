@@ -4,7 +4,7 @@ pub mod server;
 pub mod tray;
 pub mod webview;
 
-pub use server::AdminServer;
+pub use server::{AdminServer, DEFAULT_ADMIN_PORT};
 pub use tray::TrayManager;
 pub use webview::WebViewHost;
 
@@ -29,18 +29,38 @@ impl UIManager {
     /// 初始化 UI 组件
     pub async fn init(&mut self) -> Result<()> {
         // TODO: 初始化托盘、WebView 宿主和管理服务器
+        self.tray = Some(TrayManager::new()?);
+        self.webview = Some(WebViewHost::new()?);
         Ok(())
     }
 
     /// 启动 UI
     pub async fn start(&mut self) -> Result<()> {
-        // TODO: 启动所有 UI 组件
+        if let Some(tray) = &self.tray {
+            tray.create_menu()?;
+        }
+
+        if let Some(webview) = &self.webview {
+            webview.start().await?;
+        }
+
+        if let Some(server) = &self.server {
+            server.start().await?;
+        }
+
         Ok(())
     }
 
     /// 停止 UI
     pub async fn stop(&mut self) -> Result<()> {
-        // TODO: 停止并清理所有 UI 组件
+        if let Some(webview) = &self.webview {
+            webview.stop().await?;
+        }
+
+        if let Some(server) = &self.server {
+            server.stop().await?;
+        }
+
         Ok(())
     }
 }

@@ -3,7 +3,13 @@
 //! 负责初始化所有组件并启动主事件循环。
 
 use anyhow::Result;
+use std::path::PathBuf;
 use tracing::info;
+use webkeylayer_backend::config::ConfigLoader;
+use webkeylayer_backend::keyboard_hook::KeyboardHook;
+use webkeylayer_backend::mouse_hook::MouseHook;
+use webkeylayer_backend::ui::{AdminServer, DEFAULT_ADMIN_PORT};
+use webkeylayer_backend::websocket_server::{WebSocketConfig, WebSocketServer};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -15,15 +21,49 @@ async fn main() -> Result<()> {
         )
         .init();
 
-    info!("WebKeyLayer backend v{} starting", webkeylayer_backend::VERSION);
+    info!(
+        "WebKeyLayer backend v{} starting",
+        webkeylayer_backend::VERSION
+    );
 
-    // TODO: 初始化各个核心模块
-    // 1. 加载配置文件
-    // 2. 初始化键盘 Hook
-    // 3. 启动 WebSocket 服务器
-    // 4. 启动本地管理页面 WebView 宿主
-    // 5. 初始化系统托盘
-    // 6. 启动主事件循环
+    let config_path = default_config_path();
+    let config_path_text = config_path.to_string_lossy().into_owned();
+    let config = ConfigLoader::load_or_create(&config_path_text)?;
+
+    let websocket = WebSocketServer::new(WebSocketConfig {
+        bind_address: config.network.bind_address.clone(),
+        port: config.network.port,
+    });
+    websocket.start().await?;
+
+    info!(
+        bind_address = %config.network.bind_address,
+        port = config.network.port,
+        "WebSocket service started"
+    );
+
+    let mut keyboard_hook = KeyboardHook::new()?;
+    keyboard_hook.start(websocket.clone()).await?;
+
+    let mut mouse_hook = MouseHook::new()?;
+    mouse_hook.start(websocket.clone()).await?;
+
+    let admin_server = AdminServer::new(
+        DEFAULT_ADMIN_PORT,
+        config_path,
+        config.clone(),
+        websocket.clone(),
+        keyboard_hook,
+        mouse_hook,
+    );
+    admin_server.start().await?;
+
+    info!(
+        admin_url = format!("http://127.0.0.1:{}", DEFAULT_ADMIN_PORT),
+        "Admin service started"
+    );
+
+    // TODO: 初始化本地管理页面 WebView 宿主和系统托盘。
 
     info!("Application initialized successfully");
 
@@ -31,5 +71,19 @@ async fn main() -> Result<()> {
     tokio::signal::ctrl_c().await?;
     info!("Shutdown signal received");
 
+    admin_server.stop().await?;
+
     Ok(())
+}
+
+/// 返回默认配置文件路径。
+///
+/// 返回:
+/// - Windows 优先使用 `%APPDATA%/WebKeyLayer/config.toml`，否则退回当前目录
+fn default_config_path() -> PathBuf {
+    std::env::var_os("APPDATA")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("."))
+        .join("WebKeyLayer")
+        .join("config.toml")
 }

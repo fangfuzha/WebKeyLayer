@@ -6,7 +6,7 @@ pub mod importer;
 pub mod renderer;
 pub mod schema;
 
-pub use importer::PresetImporter;
+pub use importer::{ImportMode, PresetImporter};
 pub use schema::Preset;
 
 use crate::Result;
@@ -25,7 +25,8 @@ impl PresetManager {
 
     /// 导入 Input Overlay 预设
     pub fn import_preset(&mut self, preset_path: &str) -> Result<()> {
-        // TODO: 使用 PresetImporter 加载预设
+        let preset = PresetImporter::import(preset_path, ImportMode::Strict)?;
+        self.presets.push(preset);
         Ok(())
     }
 

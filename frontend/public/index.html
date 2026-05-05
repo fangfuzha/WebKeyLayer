@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebKeyLayer Stream</title>
+  <link rel="stylesheet" href="./css/stream.css" />
+</head>
+
+<body>
+  <main class="stream-root" aria-label="WebKeyLayer stream overlay">
+    <section class="keyboard" aria-label="Keyboard state">
+      <div class="key key-wide" data-keycodes="16,160,161">Shift</div>
+      <div class="wasd">
+        <div class="key" data-keycodes="87">W</div>
+        <div class="key" data-keycodes="65">A</div>
+        <div class="key" data-keycodes="83">S</div>
+        <div class="key" data-keycodes="68">D</div>
+      </div>
+      <div class="key key-space" data-keycodes="32">Space</div>
+    </section>
+
+    <section class="mouse" aria-label="Mouse state">
+      <div class="mouse-body">
+        <div class="mouse-side mouse-side-back" data-mouse-button="4"></div>
+        <div class="mouse-side mouse-side-forward" data-mouse-button="5"></div>
+        <div class="mouse-button mouse-left" data-mouse-button="1"></div>
+        <div class="mouse-button mouse-middle mouse-wheel" data-mouse-button="3" data-wheel></div>
+        <div class="mouse-button mouse-right" data-mouse-button="2"></div>
+        <div class="mouse-palm"></div>
+      </div>
+      <div class="mouse-meta">
+        <div class="direction" data-direction>•</div>
+      </div>
+    </section>
+
+    <div class="status" data-status="connecting">CONNECTING</div>
+  </main>
+
+  <script src="./js/stream-client.js" defer></script>
+</body>
+
+</html>

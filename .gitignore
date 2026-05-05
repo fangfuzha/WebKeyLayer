@@ -1,6 +1,7 @@
 # WebKeyLayer .gitignore
 
 # Cargo build artifacts
+/target/
 /backend/target/
 /backend/Cargo.lock
 

@@ -1,6 +1,5 @@
 //! 统一错误处理
 
-use std::fmt;
 use thiserror::Error;
 
 /// WebKeyLayer 的统一错误类型
@@ -17,6 +16,9 @@ pub enum Error {
 
     #[error("Keyboard hook error: {0}")]
     KeyboardHook(String),
+
+    #[error("Mouse hook error: {0}")]
+    MouseHook(String),
 
     #[error("Preset import error: {0}")]
     PresetImport(String),

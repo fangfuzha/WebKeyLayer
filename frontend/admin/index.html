@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebKeyLayer 管理</title>
+  <link rel="stylesheet" href="/admin/css/admin.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div>
+      <h1>WebKeyLayer</h1>
+      <p data-config-path>正在读取配置</p>
+    </div>
+    <div class="service-pill" data-service-state="loading">
+      <span data-service-dot></span>
+      <strong data-service-label>读取中</strong>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="panel service-panel">
+      <div class="section-head">
+        <h2>服务</h2>
+        <span data-clients>0 客户端</span>
+      </div>
+      <dl class="metrics">
+        <div>
+          <dt>键盘 Hook</dt>
+          <dd data-keyboard>--</dd>
+        </div>
+        <div>
+          <dt>鼠标 Hook</dt>
+          <dd data-mouse>--</dd>
+        </div>
+        <div>
+          <dt>错误</dt>
+          <dd data-errors>0</dd>
+        </div>
+        <div>
+          <dt>告警</dt>
+          <dd data-warnings>0</dd>
+        </div>
+      </dl>
+      <div class="actions">
+        <button type="button" data-action="start">启动</button>
+        <button type="button" data-action="stop">停止</button>
+      </div>
+    </section>
+
+    <section class="panel network-panel">
+      <div class="section-head">
+        <h2>连接</h2>
+        <button type="button" class="ghost" data-action="refresh">刷新</button>
+      </div>
+      <label>
+        <span>推流页</span>
+        <input data-stream-url readonly />
+      </label>
+      <label>
+        <span>WebSocket</span>
+        <input data-ws-url readonly />
+      </label>
+      <div class="actions">
+        <button type="button" data-copy="stream">复制推流页</button>
+        <button type="button" data-copy="ws">复制 WebSocket</button>
+      </div>
+    </section>
+
+    <section class="panel config-panel">
+      <div class="section-head">
+        <h2>配置</h2>
+        <span data-config-state>未修改</span>
+      </div>
+      <div class="form-grid">
+        <label>
+          <span>主题</span>
+          <select data-field="theme.mode">
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
+            <option value="high_contrast">高对比</option>
+            <option value="system">跟随系统</option>
+          </select>
+        </label>
+        <label>
+          <span>样式</span>
+          <select data-field="preset.style">
+            <option value="square">方形</option>
+            <option value="circle">圆形</option>
+            <option value="flat">扁平</option>
+            <option value="glassmorphism">玻璃</option>
+          </select>
+        </label>
+        <label>
+          <span>透明度</span>
+          <input type="number" min="0" max="1" step="0.05" data-field="ui.transparency" />
+        </label>
+        <label>
+          <span>缩放</span>
+          <input type="number" min="0.5" max="3" step="0.1" data-field="ui.scale" />
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" data-action="save-config">保存</button>
+        <button type="button" class="ghost" data-action="reload-config">重载</button>
+      </div>
+    </section>
+
+    <section class="panel preset-panel">
+      <div class="section-head">
+        <h2>预设</h2>
+        <span data-preset-count>0 个</span>
+      </div>
+      <div class="import-row">
+        <input type="file" accept=".json,application/json" data-preset-file />
+        <select data-import-mode>
+          <option value="lenient">宽松</option>
+          <option value="strict">严格</option>
+        </select>
+        <button type="button" data-action="import-preset">导入</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>尺寸</th>
+              <th>元素</th>
+            </tr>
+          </thead>
+          <tbody data-preset-list>
+            <tr>
+              <td colspan="3">暂无预设</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="section-head">
+        <h2>预览</h2>
+        <span data-preview-state>等待连接</span>
+      </div>
+      <iframe title="WebKeyLayer 推流页预览" data-preview></iframe>
+    </section>
+  </main>
+
+  <div class="toast" data-toast hidden></div>
+  <script src="/admin/js/admin.js" defer></script>
+</body>
+
+</html>
