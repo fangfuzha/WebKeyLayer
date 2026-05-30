@@ -8,7 +8,7 @@ use tracing::info;
 use webkeylayer_backend::config::ConfigLoader;
 use webkeylayer_backend::keyboard_hook::KeyboardHook;
 use webkeylayer_backend::mouse_hook::MouseHook;
-use webkeylayer_backend::ui::{AdminServer, DEFAULT_ADMIN_PORT};
+use webkeylayer_backend::ui::{AdminServer, TrayManager, DEFAULT_ADMIN_PORT};
 use webkeylayer_backend::websocket_server::{WebSocketConfig, WebSocketServer};
 
 #[tokio::main]
@@ -63,7 +63,9 @@ async fn main() -> Result<()> {
         "Admin service started"
     );
 
-    // TODO: 初始化本地管理页面 WebView 宿主和系统托盘。
+    let mut tray_manager = TrayManager::new(DEFAULT_ADMIN_PORT)?;
+    tray_manager.create_menu()?;
+    tray_manager.update_status(true)?;
 
     info!("Application initialized successfully");
 
@@ -72,6 +74,7 @@ async fn main() -> Result<()> {
     info!("Shutdown signal received");
 
     admin_server.stop().await?;
+    tray_manager.stop()?;
 
     Ok(())
 }

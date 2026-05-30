@@ -23,10 +23,9 @@ backend/
 │   │   ├── importer.rs            # Input Overlay 导入
 │   │   ├── schema.rs              # 内部预设格式
 │   │   └── renderer.rs            # 预设渲染
-│   ├── ui/                        # UI 层 (本地宿主 + 管理 API)
+│   ├── ui/                        # UI 层 (系统托盘 + 管理 API)
 │   │   ├── mod.rs
 │   │   ├── tray.rs                # 系统托盘
-│   │   ├── webview.rs             # WebView 宿主
 │   │   └── server.rs              # 管理 API 服务
 │   └── state/                     # 状态管理层
 │       ├── mod.rs
@@ -140,7 +139,7 @@ impl MouseHook {
 
 ### 6. ui/ (UI 层)
 
-**职责**：系统托盘宿主、本地管理网页、管理 API 服务
+**职责**：系统托盘宿主、默认浏览器入口、管理 API 服务
 
 #### ui/tray.rs - 系统托盘
 
@@ -153,11 +152,7 @@ impl MouseHook {
 - 退出程序
 ```
 
-#### ui/webview.rs - WebView 宿主
-
-- Windows: WebView2 (系统自带)
-- Linux: wry (预留)
-- 加载地址：`http://127.0.0.1:8888/admin`
+- 管理面板通过系统默认浏览器打开：`http://127.0.0.1:8888/admin`
 
 #### ui/server.rs - 管理 API
 
@@ -217,7 +212,7 @@ cargo run     # 测试启动
 ### Step 6: 实现 UI 层
 
 1. 使用 winit + tray-icon 创建托盘
-2. 使用 WebView2 加载管理页面
+2. 使用系统默认浏览器打开管理页面
 3. 实现管理 API 端点
 4. 测试本地管理页面访问
 
@@ -286,8 +281,6 @@ RUST_LOG=debug cargo run
 | notify            | 6    | 文件监听          |
 | winit             | 0.29 | 窗口系统          |
 | tray-icon         | 0.1  | 系统托盘          |
-| webview2          | 0.1  | WebView (Windows) |
-| wry               | 0.24 | WebView (Linux)   |
 | tracing           | 0.1  | 日志              |
 | thiserror         | 1.0  | 错误处理          |
 | anyhow            | 1.0  | 错误传播          |

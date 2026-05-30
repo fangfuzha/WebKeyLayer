@@ -34,7 +34,6 @@ futures-util = { version = "0.3.32", features = ["sink"] }
 
 # Platform-specific UI
 [target.'cfg(windows)'.dependencies]
-webview2 = "0.1"
 windows = { version = "0.48", features = [
   "Win32_Foundation",
   "Win32_System_LibraryLoader",
@@ -42,9 +41,6 @@ windows = { version = "0.48", features = [
   "Win32_UI_Input_KeyboardAndMouse",
   "Win32_UI_WindowsAndMessaging",
 ] }
-
-[target.'cfg(target_os = "linux")'.dependencies]
-wry = "0.24"
 
 # Development
 [dev-dependencies]
