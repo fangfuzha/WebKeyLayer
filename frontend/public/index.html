@@ -5,35 +5,103 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WebKeyLayer Stream</title>
+  <link rel="preload" href="./assets/input-overlay/wasd-extended-numeric.png" as="image" />
+  <link rel="preload" href="./assets/input-overlay/mouse.png" as="image" />
   <link rel="stylesheet" href="./css/stream.css" />
 </head>
 
 <body>
   <main class="stream-root" aria-label="WebKeyLayer stream overlay">
-    <section class="keyboard" aria-label="Keyboard state">
-      <div class="key key-wide" data-keycodes="16,160,161">Shift</div>
-      <div class="wasd">
-        <div class="key" data-keycodes="87">W</div>
-        <div class="key" data-keycodes="65">A</div>
-        <div class="key" data-keycodes="83">S</div>
-        <div class="key" data-keycodes="68">D</div>
-      </div>
-      <div class="key key-space" data-keycodes="32">Space</div>
-    </section>
+    <div class="overlay-composition">
+      <section class="keyboard" aria-label="Keyboard state">
+        <div class="preset-key" data-keycodes="49,97" aria-label="1"
+          style="--x: 137px; --y: 0px; --w: 157px; --h: 129px; --sx: 161px; --sy: 525px; --asx: 161px; --asy: 660px">
+        </div>
+        <div class="preset-key" data-keycodes="50,98" aria-label="2"
+          style="--x: 274px; --y: 0px; --w: 157px; --h: 129px; --sx: 321px; --sy: 525px; --asx: 321px; --asy: 660px">
+        </div>
+        <div class="preset-key" data-keycodes="51,99" aria-label="3"
+          style="--x: 411px; --y: 0px; --w: 157px; --h: 129px; --sx: 481px; --sy: 525px; --asx: 481px; --asy: 660px">
+        </div>
+        <div class="preset-key" data-keycodes="52,100" aria-label="4"
+          style="--x: 548px; --y: 0px; --w: 157px; --h: 129px; --sx: 641px; --sy: 525px; --asx: 641px; --asy: 660px">
+        </div>
+        <div class="preset-key" data-keycodes="53,101" aria-label="5"
+          style="--x: 685px; --y: 0px; --w: 157px; --h: 129px; --sx: 801px; --sy: 525px; --asx: 801px; --asy: 660px">
+        </div>
 
-    <section class="mouse" aria-label="Mouse state">
-      <div class="mouse-body">
-        <div class="mouse-side mouse-side-back" data-mouse-button="4"></div>
-        <div class="mouse-side mouse-side-forward" data-mouse-button="5"></div>
-        <div class="mouse-button mouse-left" data-mouse-button="1"></div>
-        <div class="mouse-button mouse-middle mouse-wheel" data-mouse-button="3" data-wheel></div>
-        <div class="mouse-button mouse-right" data-mouse-button="2"></div>
-        <div class="mouse-palm"></div>
-      </div>
-      <div class="mouse-meta">
-        <div class="direction" data-direction>•</div>
-      </div>
-    </section>
+        <div class="preset-key" data-row="1" data-keycodes="9" aria-label="Tab"
+          style="--x: 0px; --y: 133px; --w: 157px; --h: 129px; --sx: 1px; --sy: 263px; --asx: 1px; --asy: 398px">
+        </div>
+        <div class="preset-key" data-keycodes="81" aria-label="Q"
+          style="--x: 137px; --y: 133px; --w: 157px; --h: 129px; --sx: 1px; --sy: 1px; --asx: 1px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="87" aria-label="W"
+          style="--x: 274px; --y: 133px; --w: 157px; --h: 129px; --sx: 161px; --sy: 1px; --asx: 161px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="69" aria-label="E"
+          style="--x: 411px; --y: 133px; --w: 157px; --h: 129px; --sx: 321px; --sy: 1px; --asx: 321px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="82" aria-label="R"
+          style="--x: 548px; --y: 133px; --w: 157px; --h: 129px; --sx: 161px; --sy: 263px; --asx: 161px; --asy: 398px">
+        </div>
+
+        <div class="preset-key preset-key-text" data-row="2" data-keycodes="20" aria-label="CapsLock"
+          style="--x: 0px; --y: 266px; --w: 157px; --h: 129px">
+          <span>CAPS</span>
+        </div>
+        <div class="preset-key" data-keycodes="65" aria-label="A"
+          style="--x: 137px; --y: 266px; --w: 157px; --h: 129px; --sx: 641px; --sy: 1px; --asx: 641px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="83" aria-label="S"
+          style="--x: 274px; --y: 266px; --w: 157px; --h: 129px; --sx: 801px; --sy: 1px; --asx: 801px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="68" aria-label="D"
+          style="--x: 411px; --y: 266px; --w: 157px; --h: 129px; --sx: 961px; --sy: 1px; --asx: 961px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="70" aria-label="F"
+          style="--x: 548px; --y: 266px; --w: 157px; --h: 129px; --sx: 321px; --sy: 263px; --asx: 321px; --asy: 398px">
+        </div>
+
+        <div class="preset-key" data-row="3" data-keycodes="16,160,161" aria-label="Shift"
+          style="--x: 0px; --y: 399px; --w: 157px; --h: 129px; --sx: 481px; --sy: 1px; --asx: 481px; --asy: 132px">
+        </div>
+        <div class="preset-key" data-keycodes="90" aria-label="Z"
+          style="--x: 137px; --y: 399px; --w: 157px; --h: 129px; --sx: 481px; --sy: 263px; --asx: 481px; --asy: 398px">
+        </div>
+        <div class="preset-key" data-keycodes="88" aria-label="X"
+          style="--x: 271px; --y: 399px; --w: 157px; --h: 129px; --sx: 641px; --sy: 263px; --asx: 641px; --asy: 398px">
+        </div>
+        <div class="preset-key" data-keycodes="67" aria-label="C"
+          style="--x: 406px; --y: 399px; --w: 157px; --h: 129px; --sx: 801px; --sy: 263px; --asx: 801px; --asy: 398px">
+        </div>
+        <div class="preset-key" data-keycodes="86" aria-label="V"
+          style="--x: 541px; --y: 399px; --w: 157px; --h: 129px; --sx: 961px; --sy: 263px; --asx: 961px; --asy: 398px">
+        </div>
+
+        <div class="preset-key" data-row="4" data-keycodes="17,162,163" aria-label="Ctrl"
+          style="--x: 0px; --y: 532px; --w: 157px; --h: 129px; --sx: 1121px; --sy: 1px; --asx: 1121px; --asy: 132px">
+        </div>
+        <div class="preset-key preset-key-space" data-keycodes="32" aria-label="Space"
+          style="--x: 157px; --y: 532px; --w: 421px; --h: 129px; --sx: 1280px; --sy: 1px; --asx: 1280px; --asy: 132px">
+        </div>
+      </section>
+
+      <section class="mouse" aria-label="Mouse state">
+        <div class="mouse-body"></div>
+        <div class="mouse-button mouse-left" data-mouse-button="1"
+          style="--x: 2px; --y: 0px; --w: 139px; --h: 174px; --sx: 1px; --sy: 1px"></div>
+        <div class="mouse-button mouse-right" data-mouse-button="2"
+          style="--x: 146px; --y: 0px; --w: 139px; --h: 174px; --sx: 143px; --sy: 1px"></div>
+        <div class="mouse-wheel" data-mouse-button="3" data-wheel="idle"
+          style="--x: 117px; --y: 79px; --w: 48px; --h: 95px; --sx: 285px; --sy: 246px"></div>
+        <div class="mouse-side mouse-side-forward" data-mouse-button="5"
+          style="--x: 0px; --y: 210px; --w: 40px; --h: 62px; --sx: 285px; --sy: 1px"></div>
+        <div class="mouse-side mouse-side-back" data-mouse-button="4"
+          style="--x: 11px; --y: 273px; --w: 41px; --h: 62px; --sx: 284px; --sy: 1px"></div>
+        <div class="direction" data-direction="idle" aria-label="Mouse direction"></div>
+      </section>
+    </div>
 
     <div class="status" data-status="connecting">CONNECTING</div>
   </main>

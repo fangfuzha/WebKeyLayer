@@ -21,17 +21,17 @@
   const directionElement = document.querySelector("[data-direction]");
   const wheelElement = document.querySelector("[data-wheel]");
 
-  const directionGlyphs = {
-    up: "↑",
-    down: "↓",
-    left: "←",
-    right: "→",
-    up_left: "↖",
-    up_right: "↗",
-    down_left: "↙",
-    down_right: "↘",
-    idle: "•",
-  };
+  const directionStates = new Set([
+    "up",
+    "down",
+    "left",
+    "right",
+    "up_left",
+    "up_right",
+    "down_left",
+    "down_right",
+    "idle",
+  ]);
 
   let socket = null;
   let reconnectTimer = 0;
@@ -171,22 +171,26 @@
   }
 
   function updateDirection(direction) {
-    const glyph = directionGlyphs[direction] || directionGlyphs.idle;
-    directionElement.textContent = glyph;
-    directionElement.classList.toggle("is-active", direction !== "idle");
+    const nextDirection = directionStates.has(direction) ? direction : "idle";
+    directionElement.dataset.direction = nextDirection;
+    directionElement.classList.toggle("is-active", nextDirection !== "idle");
   }
 
   function updateWheel(delta) {
     const value = Number(delta) || 0;
     wheelElement.classList.remove("is-wheel-up", "is-wheel-down");
+    wheelElement.dataset.wheel = "idle";
     if (value === 0) {
       return;
     }
 
-    wheelElement.classList.add(value > 0 ? "is-wheel-up" : "is-wheel-down");
+    const wheelDirection = value > 0 ? "up" : "down";
+    wheelElement.dataset.wheel = wheelDirection;
+    wheelElement.classList.add(`is-wheel-${wheelDirection}`);
     clearTimeout(wheelResetTimer);
     wheelResetTimer = window.setTimeout(() => {
       wheelElement.classList.remove("is-wheel-up", "is-wheel-down");
+      wheelElement.dataset.wheel = "idle";
     }, 420);
   }
 
